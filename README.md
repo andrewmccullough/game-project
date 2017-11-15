@@ -1,1 +1,1 @@
-# Andrew McCullough is a hoe
+# CS 1111 PyGame Project
