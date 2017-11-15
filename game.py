@@ -1,4 +1,4 @@
 import pygame
 import gamebox
 
-print('Andrew McCullough is a hoe')
+print('Ur mother is a hoe')
