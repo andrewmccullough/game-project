@@ -39,19 +39,14 @@ blocks = []
 # Create ball sprite
 ball = gamebox.from_image(400, 300, "assets/moon.png")
 # Create bouncy platform
-platform = gamebox.from_color(400, 600, "yellow", 150, 40)
+platform = gamebox.from_color(400, 600, 'yellow', 150, 40)
 
 # Generates a fuckton of stars
 while len(stars) < 200:
     stars.append(
         gamebox.from_color(
-            random.randint(0, 800),
-            random.randint(0, 600),
-            "white",
-            2,
-            2
-        )
-    )
+            random.randint(0, 800), random.randint(0, 600), 'white', 2, 2))
+
 
 def tick(keys):
 
@@ -74,5 +69,6 @@ def tick(keys):
     camera.draw(platform)
 
     camera.display()
+
 
 gamebox.timer_loop(30, tick)
