@@ -12,34 +12,24 @@ counter = 0
 score = 0
 stars = []
 blocks = []
-
-# def background():
-#
-#     '''
-#         Creates a scrolling starry background
-#     '''
-#
-#     camera.clear('black')
-#
-#
-#
-#     # # Scrolling background
-#     # if counter % 10 == 0:
-#     #     num_stars = random.randint(5, 10)
-#     #     for _ in range(num_stars):
-#     #         stars.append(
-#     #             gamebox.from_color(random.randint(0, 800), 0, 'white', 2, 2))
-#     #
-#     # for star in stars:
-#     #     star.y += 1
-#     #     if star.y > 600:
-#     #         stars.remove(star)
-#     #     camera.draw(star)
+colors = ["red", "orange", "green", "blue", "purple"]
 
 # Create ball sprite
-ball = gamebox.from_image(400, 300, "assets/moon.png")
+ball = gamebox.from_image(400, 600 - 20 - 27, "assets/moon.png")
 # Create bouncy platform
 platform = gamebox.from_color(400, 600, 'yellow', 150, 40)
+
+# Creates blocks
+for row in range(3):
+    color = random.choice(colors)
+    colors.remove(color)
+    blocks_per_row = 5
+    for block in range(blocks_per_row):
+        blocks.append(
+            gamebox.from_color(
+                800 / blocks_per_row * block + 160 / 2, 40 * row + 40 / 2, color, 800 / blocks_per_row, 40
+            )
+        )
 
 # Generates starry background
 while len(stars) < 200:
@@ -65,6 +55,9 @@ def tick(keys):
 
     for star in stars:
         camera.draw(star)
+    for block in blocks:
+        camera.draw(block)
+
     camera.draw(ball)
     camera.draw(platform)
 
