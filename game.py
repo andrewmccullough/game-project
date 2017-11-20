@@ -7,8 +7,8 @@ import random
 # Initialize camera
 camera = gamebox.Camera(800, 600)
 
-# Create character
-character = gamebox.from_color(400, 300, 'green', 20, 20)
+# Create ball
+ball = gamebox.from_color(400, 300, 'green', 20, 20)
 
 # Globals
 start_game = False
@@ -16,20 +16,19 @@ counter = 0
 score = 0
 stars = []
 
-
 def background():
     '''Creates a scrolling starry background'''
     global counter
     counter += 1
 
     # Initialize background
-    # if start_game:
-    #     for i in range(0, 600, 5):
-    #         stars.append(
-    #             gamebox.from_color(random.randint(0, 800), i, 'white', 2, 2))
+    if start_game:
+        for i in range(0, 600, 5):
+            stars.append(
+                gamebox.from_color(random.randint(0, 800), i, 'white', 2, 2))
 
-    #     for star in stars:
-    #         camera.draw(star)
+        for star in stars:
+            camera.draw(star)
 
     # Scrolling background
     if counter % 10 == 0:
