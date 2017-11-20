@@ -41,7 +41,7 @@ ball = gamebox.from_image(400, 300, "assets/moon.png")
 # Create bouncy platform
 platform = gamebox.from_color(400, 600, 'yellow', 150, 40)
 
-# Generates a fuckton of stars
+# Generates starry background
 while len(stars) < 200:
     stars.append(
         gamebox.from_color(
