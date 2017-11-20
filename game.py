@@ -17,7 +17,7 @@ colors = ["red", "orange", "green", "blue", "purple"]
 # Create ball sprite
 ball = gamebox.from_image(400, 600 - 20 - 27, "assets/moon.png")
 # Create bouncy platform
-platform = gamebox.from_color(400, 600, 'yellow', 150, 40)
+platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
 
 # Creates blocks
 for row in range(3):
@@ -49,6 +49,20 @@ def tick(keys):
     #             400, 300,
     #             'Andrew McCullough (asm4wm) and Samarth Kishor (sk4gz)',
     #             'Arial', 50, 'red'))
+
+    if pygame.K_LEFT in keys:
+        # moves platform left
+        platform.x -= 15
+    if pygame.K_RIGHT in keys:
+        # moves platform right
+        platform.x += 15
+
+    if platform.x > 800 - 160 / 2:
+        # platform has overshot to the right
+        platform.x = 800 - 160 / 2
+    if platform.x < 160 / 2:
+        # platform has overshot to the left
+        platform.x = 160 / 2
 
     camera.clear('black')
 
