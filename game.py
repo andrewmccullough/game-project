@@ -11,8 +11,10 @@ stars = []
 blocks = []
 colors = ["red", "orange", "green", "blue", "purple"]
 game_started = False
+ball_speed = 10
 
 def vectorize(angle):
+    return math.cos(angle) * ball_speed, math.sin(angle) * ball_speed
 
 # Initialize camera
 camera = gamebox.Camera(800, 600)
