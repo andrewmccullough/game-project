@@ -3,6 +3,7 @@
 import pygame
 import gamebox
 import random
+import math
 
 # Global variables
 counter = 0
