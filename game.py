@@ -26,10 +26,9 @@ for row in range(3):
     blocks_per_row = 5
     for block in range(blocks_per_row):
         blocks.append(
-            gamebox.from_color(
-                800 / blocks_per_row * block + 160 / 2, 40 * row + 40 / 2, color, 800 / blocks_per_row, 40
-            )
-        )
+            gamebox.from_color(800 / blocks_per_row * block + 160 / 2,
+                               40 * row + 40 / 2, color, 800 / blocks_per_row,
+                               40))
 
 # Generates starry background
 while len(stars) < 200:
