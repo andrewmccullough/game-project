@@ -53,9 +53,20 @@ def tick(keys):
     if pygame.K_LEFT in keys:
         # moves platform left
         platform.x -= 12
+
+        if game_started == False:
+            angle = 0
+            ball.xspeed, ball.yspeed = vectorize(100)
+            game_started = True
+
     if pygame.K_RIGHT in keys:
         # moves platform right
         platform.x += 12
+
+        if game_started == False:
+            angle = 0
+            ball.xspeed, ball.yspeed = vectorize(80)
+            game_started = True
 
     if platform.x > 800 - 160 / 2:
         # platform has overshot to the right
