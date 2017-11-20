@@ -13,8 +13,16 @@ blocks = []
 colors = ["red", "orange", "green", "blue", "purple"]
 game_started = False
 ball_speed = 10
+ball_vector = 0
 
 def vectorize(angle):
+    global ball_vector
+
+    if angle < 0:
+        angle = 360 + angle
+
+    ball_vector = angle
+    print(ball_vector)
     xspeed = math.cos(math.radians(angle)) * ball_speed
     yspeed = math.sin(math.radians(angle)) * ball_speed
     print(xspeed, yspeed)
@@ -54,7 +62,8 @@ def tick(keys):
         platform.x -= 12
 
         if game_started == False:
-            ball.xspeed, ball.yspeed = vectorize(100)
+            # Releases the ball from the platform
+            ball.xspeed, ball.yspeed = vectorize(110)
             game_started = True
 
     if pygame.K_RIGHT in keys:
@@ -62,7 +71,8 @@ def tick(keys):
         platform.x += 12
 
         if game_started == False:
-            ball.xspeed, ball.yspeed = vectorize(80)
+            # Releases the ball from the platform
+            ball.xspeed, ball.yspeed = vectorize(70)
             game_started = True
 
     if platform.x > 800 - 160 / 2:
@@ -74,12 +84,40 @@ def tick(keys):
 
     camera.clear('black')
 
+    ball.x = ball.x + ball.xspeed
+    ball.y = ball.y - ball.yspeed
+
     for star in stars:
         camera.draw(star)
     for block in blocks:
+
+        if ball.touches(block):
+
+            if ball_vector > 90 and ball_vector < 180:
+                ball.xspeed, ball.yspeed = vectorize(180 + (180 - ball_vector))
+            elif ball_vector > 0 and ball_vector < 90:
+                ball.xspeed, ball.yspeed = vectorize(0 - ball_vector)
+
+            blocks.remove(block)
+
         camera.draw(block)
-    ball.x = ball.x + ball.xspeed
-    ball.y = ball.y - ball.yspeed
+
+    if ball.touches(platform):
+
+        if ball_vector > 180 and ball_vector < 270:
+            ball.xspeed, ball.yspeed = vectorize(180 - (ball_vector - 180))
+        elif ball_vector > 270 and ball_vector < 360:
+            ball.xspeed, ball.yspeed = vectorize(360 - ball_vector)
+
+    if ball.x >= 800 - 54 / 2:
+        ball.xspeed, ball.yspeed = vectorize(180 - ball_vector)
+
+    if ball.x <= 0 + 54 / 2:
+        ball.xspeed, ball.yspeed = vectorize(180 - ball_vector)
+
+    if ball.y <= 0 + 54 / 2:
+        ball.xspeed, ball.yspeed = vectorize(0 - ball_vector)
+
     camera.draw(ball)
     camera.draw(platform)
 
