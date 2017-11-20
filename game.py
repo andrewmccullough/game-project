@@ -27,7 +27,7 @@ for row in range(3):
     for block in range(blocks_per_row):
         blocks.append(
             gamebox.from_color(
-                800 / blocks_per_row * block + 160 / 2, 40 * row + 40 / 2, color, 800 / blocks_per_row, 40
+                800 / blocks_per_row * block + 160 / 2, 40 * row + 40 / 2, color, 800 / blocks_per_row - 4, 40 - 4
             )
         )
 
@@ -36,7 +36,6 @@ while len(stars) < 200:
     stars.append(
         gamebox.from_color(
             random.randint(0, 800), random.randint(0, 600), 'white', 2, 2))
-
 
 def tick(keys):
 
