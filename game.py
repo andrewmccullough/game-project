@@ -15,7 +15,10 @@ game_started = False
 ball_speed = 10
 
 def vectorize(angle):
-    return math.cos(angle) * ball_speed, math.sin(angle) * ball_speed
+    xspeed = math.cos(math.radians(angle)) * ball_speed
+    yspeed = math.sin(math.radians(angle)) * ball_speed
+    print(xspeed, yspeed)
+    return xspeed, yspeed
 
 # Initialize camera
 camera = gamebox.Camera(800, 600)
@@ -44,7 +47,7 @@ while len(stars) < 200:
 
 def tick(keys):
 
-    global score
+    global game_started
 
     if pygame.K_LEFT in keys:
         # moves platform left
@@ -75,7 +78,8 @@ def tick(keys):
         camera.draw(star)
     for block in blocks:
         camera.draw(block)
-
+    ball.x = ball.x + ball.xspeed
+    ball.y = ball.y - ball.yspeed
     camera.draw(ball)
     camera.draw(platform)
 
