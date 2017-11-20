@@ -13,6 +13,7 @@ score = 0
 stars = []
 blocks = []
 colors = ["red", "orange", "green", "blue", "purple"]
+game_started = False
 
 # Create ball sprite
 ball = gamebox.from_image(400, 600 - 20 - 27, "assets/moon.png")
@@ -26,10 +27,9 @@ for row in range(3):
     blocks_per_row = 5
     for block in range(blocks_per_row):
         blocks.append(
-            gamebox.from_color(
-                800 / blocks_per_row * block + 160 / 2, 40 * row + 40 / 2, color, 800 / blocks_per_row - 4, 40 - 4
-            )
-        )
+            gamebox.from_color(800 / blocks_per_row * block + 160 / 2,
+                               40 * row + 40 / 2, color,
+                               800 / blocks_per_row - 4, 40 - 4))
 
 # Generates starry background
 while len(stars) < 200:
@@ -37,18 +37,14 @@ while len(stars) < 200:
         gamebox.from_color(
             random.randint(0, 800), random.randint(0, 600), 'white', 2, 2))
 
+
+def vectorize(angle):
+    '''Takes an angle and returns the xspeed and yspeed of the ball'''
+
+
 def tick(keys):
 
     global score
-
-    # Start the game
-    # if start_game == False:
-    #     camera.clear('black')
-    #     camera.draw(
-    #         gamebox.from_text(
-    #             400, 300,
-    #             'Andrew McCullough (asm4wm) and Samarth Kishor (sk4gz)',
-    #             'Arial', 50, 'red'))
 
     if pygame.K_LEFT in keys:
         # moves platform left
@@ -86,5 +82,6 @@ def tick(keys):
     camera.draw(platform)
 
     camera.display()
+
 
 gamebox.timer_loop(45, tick)
