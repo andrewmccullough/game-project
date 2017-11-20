@@ -4,9 +4,6 @@ import pygame
 import gamebox
 import random
 
-# Initialize camera
-camera = gamebox.Camera(800, 600)
-
 # Global variables
 counter = 0
 score = 0
@@ -14,6 +11,11 @@ stars = []
 blocks = []
 colors = ["red", "orange", "green", "blue", "purple"]
 game_started = False
+
+def vectorize(angle):
+
+# Initialize camera
+camera = gamebox.Camera(800, 600)
 
 # Create ball sprite
 ball = gamebox.from_image(400, 600 - 20 - 27, "assets/moon.png")
@@ -37,11 +39,6 @@ while len(stars) < 200:
         gamebox.from_color(
             random.randint(0, 800), random.randint(0, 600), 'white', 2, 2))
 
-
-def vectorize(angle):
-    '''Takes an angle and returns the xspeed and yspeed of the ball'''
-
-
 def tick(keys):
 
     global score
@@ -51,7 +48,6 @@ def tick(keys):
         platform.x -= 12
 
         if game_started == False:
-            angle = 0
             ball.xspeed, ball.yspeed = vectorize(100)
             game_started = True
 
@@ -60,7 +56,6 @@ def tick(keys):
         platform.x += 12
 
         if game_started == False:
-            angle = 0
             ball.xspeed, ball.yspeed = vectorize(80)
             game_started = True
 
