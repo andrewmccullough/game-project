@@ -8,7 +8,7 @@ import random
 camera = gamebox.Camera(800, 600)
 
 # Create ball
-ball = gamebox.from_color(400, 300, 'green', 20, 20)
+ball = gamebox.from_image(0, 0, "assets/moon.png")
 
 # Globals
 start_game = False
