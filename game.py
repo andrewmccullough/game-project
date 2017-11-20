@@ -52,10 +52,10 @@ def tick(keys):
 
     if pygame.K_LEFT in keys:
         # moves platform left
-        platform.x -= 15
+        platform.x -= 12
     if pygame.K_RIGHT in keys:
         # moves platform right
-        platform.x += 15
+        platform.x += 12
 
     if platform.x > 800 - 160 / 2:
         # platform has overshot to the right
@@ -76,5 +76,4 @@ def tick(keys):
 
     camera.display()
 
-
-gamebox.timer_loop(30, tick)
+gamebox.timer_loop(45, tick)
