@@ -3,7 +3,7 @@
 import pygame
 import gamebox
 import random
-from math import cos, sin, radians
+import math
 
 # Global variables
 counter = 0
@@ -13,21 +13,18 @@ blocks = []
 colors = ['red', 'orange', 'green', 'blue', 'purple']
 game_started = False
 ball_speed = 10
-ball_angle = 0
-
+ball_vector = 0
 
 def vectorize(angle):
-    global ball_angle
+    global ball_vector
 
     if angle < 0:
         angle = 360 + angle
 
-<<<<<<< HEAD
     ball_vector = angle
-    print(ball_vector)
     xspeed = math.cos(math.radians(angle)) * ball_speed
     yspeed = math.sin(math.radians(angle)) * ball_speed
-    print(xspeed, yspeed)
+
     return xspeed, yspeed
 
 def endgame(won, score):
@@ -45,21 +42,10 @@ def endgame(won, score):
 
 # Initialize camera
 camera = gamebox.Camera(800, 600)
-
 # Create ball sprite
 ball = gamebox.from_image(400, 600 - 20 - 27, "assets/moon.png")
 # Create bouncy platform
 platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
-=======
-    ball_angle = angle
-    # print(ball_angle)
-    xspeed = cos(radians(angle)) * ball_speed
-    yspeed = sin(radians(angle)) * ball_speed
-    # print(xspeed, yspeed)
->>>>>>> 78c825a8f827d03cdfc29164fb8a9b95e8ec2bf9
-
-    return xspeed, yspeed
-
 
 def tick(keys):
     global game_started
@@ -103,11 +89,12 @@ def tick(keys):
 
     # Collision detection
     for block in blocks:
+        print("foo")
         if ball.touches(block):
-            if ball_angle > 90 and ball_angle < 180:
-                ball.xspeed, ball.yspeed = vectorize(180 + (180 - ball_angle))
-            elif ball_angle > 0 and ball_angle < 90:
-                ball.xspeed, ball.yspeed = vectorize(0 - ball_angle)
+            if ball_vector > 90 and ball_vector < 180:
+                ball.xspeed, ball.yspeed = vectorize(180 + (180 - ball_vector))
+            elif ball_vector > 0 and ball_vector < 90:
+                ball.xspeed, ball.yspeed = vectorize(0 - ball_vector)
 
             blocks.remove(block)
             score += 1
@@ -115,31 +102,13 @@ def tick(keys):
         camera.draw(block)
 
     if ball.touches(platform):
-<<<<<<< HEAD
+
         # We should add something to change resulting vector based on where it hits on the platform
         if ball_vector > 180 and ball_vector < 270:
             ball.xspeed, ball.yspeed = vectorize(180 - (ball_vector - 180))
         elif ball_vector > 270 and ball_vector < 360:
             ball.xspeed, ball.yspeed = vectorize(360 - ball_vector)
 
-=======
-        if ball_angle > 180 and ball_angle < 270:
-            ball.xspeed, ball.yspeed = vectorize(180 - (ball_angle - 180))
-        elif ball_angle > 270 and ball_angle < 360:
-            ball.xspeed, ball.yspeed = vectorize(360 - ball_angle)
-
-    # Enable bouncing off the walls
->>>>>>> 78c825a8f827d03cdfc29164fb8a9b95e8ec2bf9
-    if ball.x >= 800 - 54 / 2:
-        ball.xspeed, ball.yspeed = vectorize(180 - ball_angle)
-
-    if ball.x <= 0 + 54 / 2:
-        ball.xspeed, ball.yspeed = vectorize(180 - ball_angle)
-
-    if ball.y <= 0 + 54 / 2:
-        ball.xspeed, ball.yspeed = vectorize(0 - ball_angle)
-
-<<<<<<< HEAD
     if ball.y > 600 - 54 / 2:
         endgame (False, score)
 
@@ -149,22 +118,10 @@ def tick(keys):
     if pygame.K_q in keys:
         gamebox.stop_loop()
 
-=======
-    # Draw everything else
->>>>>>> 78c825a8f827d03cdfc29164fb8a9b95e8ec2bf9
     camera.draw(ball)
     camera.draw(platform)
     camera.display()
 
-
-# Initialize camera
-camera = gamebox.Camera(800, 600)
-
-# Create ball sprite
-ball = gamebox.from_image(400, 600 - 20 - 27, 'assets/moon.png')
-
-# Create platform sprite
-platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
 
 # Create blocks
 for row in range(3):
