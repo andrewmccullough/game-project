@@ -10,10 +10,11 @@ counter = 0
 score = 0
 stars = []
 blocks = []
-colors = ["red", "orange", "green", "blue", "purple"]
+colors = ['red', 'orange', 'green', 'blue', 'purple']
 game_started = False
 ball_speed = 10
 ball_vector = 0
+
 
 def vectorize(angle):
     global ball_vector
@@ -22,39 +23,15 @@ def vectorize(angle):
         angle = 360 + angle
 
     ball_vector = angle
-    print(ball_vector)
+    # print(ball_vector)
     xspeed = math.cos(math.radians(angle)) * ball_speed
     yspeed = math.sin(math.radians(angle)) * ball_speed
-    print(xspeed, yspeed)
+    # print(xspeed, yspeed)
+
     return xspeed, yspeed
 
-# Initialize camera
-camera = gamebox.Camera(800, 600)
-
-# Create ball sprite
-ball = gamebox.from_image(400, 600 - 20 - 27, "assets/moon.png")
-# Create bouncy platform
-platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
-
-# Creates blocks
-for row in range(3):
-    color = random.choice(colors)
-    colors.remove(color)
-    blocks_per_row = 5
-    for block in range(blocks_per_row):
-        blocks.append(
-            gamebox.from_color(800 / blocks_per_row * block + 160 / 2,
-                               40 * row + 40 / 2, color,
-                               800 / blocks_per_row - 4, 40 - 4))
-
-# Generates starry background
-while len(stars) < 200:
-    stars.append(
-        gamebox.from_color(
-            random.randint(0, 800), random.randint(0, 600), 'white', 2, 2))
 
 def tick(keys):
-
     global game_started
 
     if pygame.K_LEFT in keys:
@@ -62,7 +39,7 @@ def tick(keys):
         platform.x -= 12
 
         if game_started == False:
-            # Releases the ball from the platform
+            # releases the ball from the platform
             ball.xspeed, ball.yspeed = vectorize(110)
             game_started = True
 
@@ -71,10 +48,11 @@ def tick(keys):
         platform.x += 12
 
         if game_started == False:
-            # Releases the ball from the platform
+            # releases the ball from the platform
             ball.xspeed, ball.yspeed = vectorize(70)
             game_started = True
 
+    # Correct overshooting
     if platform.x > 800 - 160 / 2:
         # platform has overshot to the right
         platform.x = 800 - 160 / 2
@@ -82,17 +60,18 @@ def tick(keys):
         # platform has overshot to the left
         platform.x = 160 / 2
 
-    camera.clear('black')
-
     ball.x = ball.x + ball.xspeed
     ball.y = ball.y - ball.yspeed
 
+    # Draw the background within the game loop
+    camera.clear('black')
+
     for star in stars:
         camera.draw(star)
+
+    # Collision detection
     for block in blocks:
-
         if ball.touches(block):
-
             if ball_vector > 90 and ball_vector < 180:
                 ball.xspeed, ball.yspeed = vectorize(180 + (180 - ball_vector))
             elif ball_vector > 0 and ball_vector < 90:
@@ -103,12 +82,12 @@ def tick(keys):
         camera.draw(block)
 
     if ball.touches(platform):
-
         if ball_vector > 180 and ball_vector < 270:
             ball.xspeed, ball.yspeed = vectorize(180 - (ball_vector - 180))
         elif ball_vector > 270 and ball_vector < 360:
             ball.xspeed, ball.yspeed = vectorize(360 - ball_vector)
 
+    # Enable bouncing off the walls
     if ball.x >= 800 - 54 / 2:
         ball.xspeed, ball.yspeed = vectorize(180 - ball_vector)
 
@@ -118,10 +97,36 @@ def tick(keys):
     if ball.y <= 0 + 54 / 2:
         ball.xspeed, ball.yspeed = vectorize(0 - ball_vector)
 
+    # Draw everything else
     camera.draw(ball)
     camera.draw(platform)
-
     camera.display()
 
+
+# Initialize camera
+camera = gamebox.Camera(800, 600)
+
+# Create ball sprite
+ball = gamebox.from_image(400, 600 - 20 - 27, 'assets/moon.png')
+
+# Create bouncy platform
+platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
+
+# Create blocks
+for row in range(3):
+    color = random.choice(colors)
+    colors.remove(color)
+    blocks_per_row = 5
+    for block in range(blocks_per_row):
+        blocks.append(
+            gamebox.from_color(800 / blocks_per_row * block + 160 / 2,
+                               40 * row + 40 / 2, color,
+                               800 / blocks_per_row - 4, 40 - 4))
+
+# Generate starry background
+while len(stars) < 200:
+    stars.append(
+        gamebox.from_color(
+            random.randint(0, 800), random.randint(0, 600), 'white', 2, 2))
 
 gamebox.timer_loop(45, tick)
