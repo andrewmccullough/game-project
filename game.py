@@ -28,6 +28,19 @@ def vectorize(angle):
     print(xspeed, yspeed)
     return xspeed, yspeed
 
+def endgame(won, score):
+    camera.clear('black')
+    if won:
+        scoreboard = gamebox.from_text(
+            400, 300, "You won! Your score was " + str(score) + ". Press q to quit.", "Arial", 30, "yellow"
+        )
+    else:
+        scoreboard = gamebox.from_text(
+            400, 300, "You died. Your score was " + str(score) + ". Press q to quit.", "Arial", 30, "yellow"
+        )
+    camera.draw(scoreboard)
+
+
 # Initialize camera
 camera = gamebox.Camera(800, 600)
 
@@ -56,6 +69,7 @@ while len(stars) < 200:
 def tick(keys):
 
     global game_started
+    global score
 
     if pygame.K_LEFT in keys:
         # moves platform left
@@ -99,11 +113,12 @@ def tick(keys):
                 ball.xspeed, ball.yspeed = vectorize(0 - ball_vector)
 
             blocks.remove(block)
+            score += 1
 
         camera.draw(block)
 
     if ball.touches(platform):
-
+        # We should add something to change resulting vector based on where it hits on the platform
         if ball_vector > 180 and ball_vector < 270:
             ball.xspeed, ball.yspeed = vectorize(180 - (ball_vector - 180))
         elif ball_vector > 270 and ball_vector < 360:
@@ -117,6 +132,15 @@ def tick(keys):
 
     if ball.y <= 0 + 54 / 2:
         ball.xspeed, ball.yspeed = vectorize(0 - ball_vector)
+
+    if ball.y > 600 - 54 / 2:
+        endgame (False, score)
+
+    if len(blocks) == 0:
+        endgame (True, score)
+
+    if pygame.K_q in keys:
+        gamebox.stop_loop()
 
     camera.draw(ball)
     camera.draw(platform)
