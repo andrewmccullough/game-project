@@ -3,7 +3,7 @@
 import pygame
 import gamebox
 import random
-import math
+from math import cos, sin, radians
 
 # Global variables
 counter = 0
@@ -24,8 +24,8 @@ def vectorize(angle):
 
     ball_vector = angle
     # print(ball_vector)
-    xspeed = math.cos(math.radians(angle)) * ball_speed
-    yspeed = math.sin(math.radians(angle)) * ball_speed
+    xspeed = cos(radians(angle)) * ball_speed
+    yspeed = sin(radians(angle)) * ball_speed
     # print(xspeed, yspeed)
 
     return xspeed, yspeed
@@ -38,7 +38,7 @@ def tick(keys):
         # moves platform left
         platform.x -= 12
 
-        if game_started == False:
+        if not game_started:
             # releases the ball from the platform
             ball.xspeed, ball.yspeed = vectorize(110)
             game_started = True
@@ -47,7 +47,7 @@ def tick(keys):
         # moves platform right
         platform.x += 12
 
-        if game_started == False:
+        if not game_started:
             # releases the ball from the platform
             ball.xspeed, ball.yspeed = vectorize(70)
             game_started = True
