@@ -13,17 +13,17 @@ blocks = []
 colors = ['red', 'orange', 'green', 'blue', 'purple']
 game_started = False
 ball_speed = 10
-ball_vector = 0
+ball_angle = 0
 
 
 def vectorize(angle):
-    global ball_vector
+    global ball_angle
 
     if angle < 0:
         angle = 360 + angle
 
-    ball_vector = angle
-    # print(ball_vector)
+    ball_angle = angle
+    # print(ball_angle)
     xspeed = cos(radians(angle)) * ball_speed
     yspeed = sin(radians(angle)) * ball_speed
     # print(xspeed, yspeed)
@@ -72,30 +72,30 @@ def tick(keys):
     # Collision detection
     for block in blocks:
         if ball.touches(block):
-            if ball_vector > 90 and ball_vector < 180:
-                ball.xspeed, ball.yspeed = vectorize(180 + (180 - ball_vector))
-            elif ball_vector > 0 and ball_vector < 90:
-                ball.xspeed, ball.yspeed = vectorize(0 - ball_vector)
+            if ball_angle > 90 and ball_angle < 180:
+                ball.xspeed, ball.yspeed = vectorize(180 + (180 - ball_angle))
+            elif ball_angle > 0 and ball_angle < 90:
+                ball.xspeed, ball.yspeed = vectorize(0 - ball_angle)
 
             blocks.remove(block)
 
         camera.draw(block)
 
     if ball.touches(platform):
-        if ball_vector > 180 and ball_vector < 270:
-            ball.xspeed, ball.yspeed = vectorize(180 - (ball_vector - 180))
-        elif ball_vector > 270 and ball_vector < 360:
-            ball.xspeed, ball.yspeed = vectorize(360 - ball_vector)
+        if ball_angle > 180 and ball_angle < 270:
+            ball.xspeed, ball.yspeed = vectorize(180 - (ball_angle - 180))
+        elif ball_angle > 270 and ball_angle < 360:
+            ball.xspeed, ball.yspeed = vectorize(360 - ball_angle)
 
     # Enable bouncing off the walls
     if ball.x >= 800 - 54 / 2:
-        ball.xspeed, ball.yspeed = vectorize(180 - ball_vector)
+        ball.xspeed, ball.yspeed = vectorize(180 - ball_angle)
 
     if ball.x <= 0 + 54 / 2:
-        ball.xspeed, ball.yspeed = vectorize(180 - ball_vector)
+        ball.xspeed, ball.yspeed = vectorize(180 - ball_angle)
 
     if ball.y <= 0 + 54 / 2:
-        ball.xspeed, ball.yspeed = vectorize(0 - ball_vector)
+        ball.xspeed, ball.yspeed = vectorize(0 - ball_angle)
 
     # Draw everything else
     camera.draw(ball)
