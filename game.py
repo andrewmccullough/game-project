@@ -89,7 +89,7 @@ def tick(keys):
 
     # Collision detection
     for block in blocks:
-        print("foo")
+
         if ball.touches(block):
             if ball_vector > 90 and ball_vector < 180:
                 ball.xspeed, ball.yspeed = vectorize(180 + (180 - ball_vector))
@@ -111,6 +111,12 @@ def tick(keys):
 
     if ball.y > 600 - 54 / 2:
         endgame (False, score)
+
+    if ball.x < 0 + 54 / 2:
+        ball.xspeed, ball.yspeed = vectorize(90 - (ball_vector - 90))
+
+    if ball.x > 800 - 54 / 2:
+        ball.xspeed, ball.yspeed = vectorize(90 + (90 - ball_vector))
 
     if len(blocks) == 0:
         endgame (True, score)
