@@ -60,6 +60,7 @@ def tick(keys):
         # platform has overshot to the left
         platform.x = 160 / 2
 
+    # Implement ball speed
     ball.x = ball.x + ball.xspeed
     ball.y = ball.y - ball.yspeed
 
@@ -109,7 +110,7 @@ camera = gamebox.Camera(800, 600)
 # Create ball sprite
 ball = gamebox.from_image(400, 600 - 20 - 27, 'assets/moon.png')
 
-# Create bouncy platform
+# Create platform sprite
 platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
 
 # Create blocks
