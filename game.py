@@ -47,7 +47,7 @@ def endgame(won, score):
 # Initialize camera
 camera = gamebox.Camera(800, 600)
 # Create ball sprite
-ball = gamebox.from_image(400, 600 - 20 - 27, 'assets/moon.png')
+ball = gamebox.from_image(400, 600 - 20 - 27, 'moon.png')
 # Create bouncy platform
 platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
 
