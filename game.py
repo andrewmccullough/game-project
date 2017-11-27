@@ -23,10 +23,8 @@ def vectorize(angle):
         angle = 360 + angle
 
     ball_angle = angle
-    # print(ball_angle)
     xspeed = cos(radians(angle)) * ball_speed
     yspeed = sin(radians(angle)) * ball_speed
-    # print(xspeed, yspeed)
 
     return xspeed, yspeed
 
