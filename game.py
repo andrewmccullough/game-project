@@ -13,16 +13,16 @@ blocks = []
 colors = ['red', 'orange', 'green', 'blue', 'purple']
 game_started = False
 ball_speed = 10
-ball_vector = 0
+ball_angle = 0
 
 
 def vectorize(angle):
-    global ball_vector
+    global ball_angle
 
     if angle < 0:
         angle = 360 + angle
 
-    ball_vector = angle
+    ball_angle = angle
     xspeed = math.cos(math.radians(angle)) * ball_speed
     yspeed = math.sin(math.radians(angle)) * ball_speed
 
@@ -39,7 +39,7 @@ def endgame(won, score):
     else:
         scoreboard = gamebox.from_text(
             400, 300,
-            "You died. Your score was " + str(score) + ". Press q to quit.",
+            "You lost. Your score was " + str(score) + ". Press q to quit.",
             "Arial", 30, "yellow")
     camera.draw(scoreboard)
 
@@ -94,12 +94,11 @@ def tick(keys):
 
     # Collision detection
     for block in blocks:
-
         if ball.touches(block):
-            if ball_vector > 90 and ball_vector < 180:
-                ball.xspeed, ball.yspeed = vectorize(180 + (180 - ball_vector))
-            elif ball_vector > 0 and ball_vector < 90:
-                ball.xspeed, ball.yspeed = vectorize(0 - ball_vector)
+            if ball_angle > 90 and ball_angle < 180:
+                ball.xspeed, ball.yspeed = vectorize(180 + (180 - ball_angle))
+            elif ball_angle > 0 and ball_angle < 90:
+                ball.xspeed, ball.yspeed = vectorize(0 - ball_angle)
 
             blocks.remove(block)
             score += 1
@@ -107,22 +106,30 @@ def tick(keys):
         camera.draw(block)
 
     if ball.touches(platform):
+        # We should add something to change resulting vector
+        # based on where it hits on the platform
+        if 180 < ball_angle < 270:
+            ball.xspeed, ball.yspeed = vectorize(180 - (ball_angle - 180))
+        elif 270 < ball_angle < 360:
+            ball.xspeed, ball.yspeed = vectorize(360 - ball_angle)
 
-        # We should add something to change resulting vector based on where it hits on the platform
-        if ball_vector > 180 and ball_vector < 270:
-            ball.xspeed, ball.yspeed = vectorize(180 - (ball_vector - 180))
-        elif ball_vector > 270 and ball_vector < 360:
-            ball.xspeed, ball.yspeed = vectorize(360 - ball_vector)
-
+    # Bounce the ball off the sides of the screen
     if ball.y > 600 - 54 / 2:
         endgame(False, score)
 
+    if ball.y < 0 + 54 / 2:
+        if 0 < ball_angle < 90:
+            ball.xspeed, ball.yspeed = vectorize(180 - (ball_angle - 180))
+        elif 90 < ball_angle < 180:
+            ball.xspeed, ball.yspeed = vectorize(360 - ball_angle)
+
     if ball.x < 0 + 54 / 2:
-        ball.xspeed, ball.yspeed = vectorize(90 - (ball_vector - 90))
+        ball.xspeed, ball.yspeed = vectorize(90 - (ball_angle - 90))
 
     if ball.x > 800 - 54 / 2:
-        ball.xspeed, ball.yspeed = vectorize(90 + (90 - ball_vector))
+        ball.xspeed, ball.yspeed = vectorize(90 + (90 - ball_angle))
 
+    # End the game
     if len(blocks) == 0:
         endgame(True, score)
 
