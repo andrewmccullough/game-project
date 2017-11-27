@@ -34,20 +34,20 @@ def endgame(won, score):
     if won:
         scoreboard = gamebox.from_text(
             400, 300,
-            "You won! Your score was " + str(score) + ". Press q to quit.",
-            "Arial", 30, "yellow")
+            'You won! Your score was ' + str(score) + '. Press q to quit.',
+            'Arial', 30, 'yellow')
     else:
         scoreboard = gamebox.from_text(
             400, 300,
-            "You lost. Your score was " + str(score) + ". Press q to quit.",
-            "Arial", 30, "yellow")
+            'You lost. Your score was ' + str(score) + '. Press q to quit.',
+            'Arial', 30, 'yellow')
     camera.draw(scoreboard)
 
 
 # Initialize camera
 camera = gamebox.Camera(800, 600)
 # Create ball sprite
-ball = gamebox.from_image(400, 600 - 20 - 27, "assets/moon.png")
+ball = gamebox.from_image(400, 600 - 20 - 27, 'assets/moon.png')
 # Create bouncy platform
 platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
 
