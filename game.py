@@ -105,12 +105,12 @@ def tick(keys):
         camera.draw(block)
 
     if ball.touches(platform):
-        # We should add something to change resulting vector
-        # based on where it hits on the platform
-        if 180 < ball_angle < 270:
-            ball.xspeed, ball.yspeed = vectorize(180 - (ball_angle - 180))
-        elif 270 < ball_angle < 360:
-            ball.xspeed, ball.yspeed = vectorize(360 - ball_angle)
+        if ball.x < platform.x:
+            ball.xspeed, ball.yspeed = vectorize(130 +
+                                                 (platform.x - ball.x) / 8)
+        elif ball.x > platform.x:
+            ball.xspeed, ball.yspeed = vectorize(50 -
+                                                 (ball.x - platform.x) / 8)
 
     # Bounce the ball off the sides of the screen
     if ball.y > 600 - 54 / 2:
