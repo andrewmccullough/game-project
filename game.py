@@ -12,7 +12,9 @@ stars = []
 blocks = []
 aliens = []
 colors = ['red', 'orange', 'green', 'blue', 'purple']
-alien_sprites = ["alien_blue.png", "alien_green.png", "alien_pink.png", "alien_purple.png"]
+alien_sprites = [
+    'alien_blue.png', 'alien_green.png', 'alien_pink.png', 'alien_purple.png'
+]
 game_started = False
 game_over = False
 ball_speed = 10
@@ -24,6 +26,7 @@ camera = gamebox.Camera(800, 600)
 ball = gamebox.from_image(400, 600 - 20 - 27, 'moon.png')
 # Create bouncy platform
 platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
+
 
 def vectorize(angle):
     global ball_angle
@@ -42,7 +45,7 @@ def endgame(won, score):
     global ball
     global platform
 
-    ball = gamebox.from_color(0, 0, "black", 0, 0)
+    ball = gamebox.from_color(0, 0, 'black', 0, 0)
 
     camera.clear('black')
     if won:
@@ -70,8 +73,9 @@ def tick(keys):
 
         if counter % (45 * 3) == 0:
             # generate alien
-            new_alien = random.choice(alien_sprites) # picks a random alien
-            aliens.append(gamebox.from_image(random.randint(100, 700), 0, new_alien))
+            new_alien = random.choice(alien_sprites)  # picks a random alien
+            aliens.append(
+                gamebox.from_image(random.randint(100, 700), 0, new_alien))
 
         if pygame.K_LEFT in keys:
             # moves platform left
@@ -113,7 +117,8 @@ def tick(keys):
         for block in blocks:
             if ball.touches(block):
                 if ball_angle > 90 and ball_angle < 180:
-                    ball.xspeed, ball.yspeed = vectorize(180 + (180 - ball_angle))
+                    ball.xspeed, ball.yspeed = vectorize(
+                        180 + (180 - ball_angle))
                 elif ball_angle > 0 and ball_angle < 90:
                     ball.xspeed, ball.yspeed = vectorize(0 - ball_angle)
 
@@ -124,11 +129,11 @@ def tick(keys):
 
         if ball.touches(platform):
             if ball.x < platform.x:
-                ball.xspeed, ball.yspeed = vectorize(130 +
-                                                     (platform.x - ball.x) / 8)
+                ball.xspeed, ball.yspeed = vectorize(90 +
+                                                     (platform.x - ball.x))
             elif ball.x > platform.x:
-                ball.xspeed, ball.yspeed = vectorize(50 -
-                                                     (ball.x - platform.x) / 8)
+                ball.xspeed, ball.yspeed = vectorize(90 -
+                                                     (ball.x - platform.x))
 
         # Draw alien_sprites
 
@@ -173,6 +178,7 @@ def tick(keys):
     camera.draw(ball)
     camera.draw(platform)
     camera.display()
+
 
 def main():
     # Create blocks
