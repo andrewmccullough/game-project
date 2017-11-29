@@ -10,7 +10,9 @@ counter = 0
 score = 0
 stars = []
 blocks = []
+aliens = []
 colors = ['red', 'orange', 'green', 'blue', 'purple']
+alien_sprites = ["alien_blue.png", "alien_green.png", "alien_pink.png", "alien_purple.png"]
 game_started = False
 ball_speed = 10
 ball_angle = 0
@@ -21,7 +23,6 @@ camera = gamebox.Camera(800, 600)
 ball = gamebox.from_image(400, 600 - 20 - 27, 'moon.png')
 # Create bouncy platform
 platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
-
 
 def vectorize(angle):
     global ball_angle
@@ -54,6 +55,14 @@ def endgame(won, score):
 def tick(keys):
     global game_started
     global score
+    global counter
+
+    counter += 1
+
+    if counter % (45 * 3) == 0:
+        # generate alien
+        new_alien = random.choice(alien_sprites) # picks a random alien
+        aliens.append(gamebox.from_image(random.randint(100, 700), 0, new_alien))
 
     if pygame.K_LEFT in keys:
         # moves platform left
@@ -112,6 +121,20 @@ def tick(keys):
         elif 270 < ball_angle < 360:
             ball.xspeed, ball.yspeed = vectorize(360 - ball_angle)
 
+    # Draw alien_sprites
+
+    for alien in aliens:
+        alien.y += 4
+
+        if ball.touches(alien):
+            score += 1
+            aliens.remove(alien)
+
+        if platform.touches(alien):
+            endgame(False, score)
+
+        camera.draw(alien)
+
     # Bounce the ball off the sides of the screen
     if ball.y > 600 - 54 / 2:
         endgame(False, score)
@@ -138,7 +161,6 @@ def tick(keys):
     camera.draw(ball)
     camera.draw(platform)
     camera.display()
-
 
 def main():
     # Create blocks
