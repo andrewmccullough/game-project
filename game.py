@@ -15,6 +15,13 @@ game_started = False
 ball_speed = 10
 ball_angle = 0
 
+# Initialize camera
+camera = gamebox.Camera(800, 600)
+# Create ball sprite
+ball = gamebox.from_image(400, 600 - 20 - 27, 'moon.png')
+# Create bouncy platform
+platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
+
 
 def vectorize(angle):
     global ball_angle
@@ -42,14 +49,6 @@ def endgame(won, score):
             'You lost. Your score was ' + str(score) + '. Press q to quit.',
             'Arial', 30, 'yellow')
     camera.draw(scoreboard)
-
-
-# Initialize camera
-camera = gamebox.Camera(800, 600)
-# Create ball sprite
-ball = gamebox.from_image(400, 600 - 20 - 27, 'moon.png')
-# Create bouncy platform
-platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
 
 
 def tick(keys):
@@ -141,21 +140,26 @@ def tick(keys):
     camera.display()
 
 
-# Create blocks
-for row in range(3):
-    color = random.choice(colors)
-    colors.remove(color)
-    blocks_per_row = 5
-    for block in range(blocks_per_row):
-        blocks.append(
-            gamebox.from_color(800 / blocks_per_row * block + 160 / 2,
-                               40 * row + 40 / 2, color,
-                               800 / blocks_per_row - 4, 40 - 4))
+def main():
+    # Create blocks
+    for row in range(3):
+        color = random.choice(colors)
+        colors.remove(color)
+        blocks_per_row = 5
+        for block in range(blocks_per_row):
+            blocks.append(
+                gamebox.from_color(800 / blocks_per_row * block + 160 / 2,
+                                   40 * row + 40 / 2, color,
+                                   800 / blocks_per_row - 4, 40 - 4))
 
-# Generate starry background
-while len(stars) < 200:
-    stars.append(
-        gamebox.from_color(
-            random.randint(0, 800), random.randint(0, 600), 'white', 2, 2))
+    # Generate starry background
+    while len(stars) < 200:
+        stars.append(
+            gamebox.from_color(
+                random.randint(0, 800), random.randint(0, 600), 'white', 2, 2))
 
-gamebox.timer_loop(45, tick)
+    gamebox.timer_loop(45, tick)
+
+
+if __name__ == '__main__':
+    main()
