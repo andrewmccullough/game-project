@@ -3,7 +3,7 @@
 import pygame
 import gamebox
 import random
-import math
+from math import sin, cos, radians
 
 # Global variables
 counter = 0
@@ -34,8 +34,8 @@ def vectorize(angle):
         angle = 360 + angle
 
     ball_angle = angle
-    xspeed = math.cos(math.radians(angle)) * ball_speed
-    yspeed = math.sin(math.radians(angle)) * ball_speed
+    xspeed = cos(radians(angle)) * ball_speed
+    yspeed = sin(radians(angle)) * ball_speed
 
     return xspeed, yspeed
 
