@@ -73,8 +73,7 @@ def tick(keys):
 
     if not game_over:
         if counter % (45 * 3) == 0:
-            # generate alien
-            new_alien = random.choice(alien_sprites)  # picks a random alien
+            new_alien = random.choice(alien_sprites)
             aliens.append(
                 gamebox.from_image(random.randint(100, 700), 0, new_alien))
 
@@ -82,7 +81,6 @@ def tick(keys):
             platform.x -= 12
 
             if not game_started:
-                # releases the ball from the platform
                 ball.xspeed, ball.yspeed = vectorize(110)
                 game_started = True
 
@@ -90,16 +88,13 @@ def tick(keys):
             platform.x += 12
 
             if not game_started:
-                # releases the ball from the platform
                 ball.xspeed, ball.yspeed = vectorize(70)
                 game_started = True
 
         # Correct overshooting
         if platform.x > 800 - 160 / 2:
-            # platform has overshot to the right
             platform.x = 800 - 160 / 2
         if platform.x < 160 / 2:
-            # platform has overshot to the left
             platform.x = 160 / 2
 
         # Implement ball speed
