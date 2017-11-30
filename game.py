@@ -128,11 +128,9 @@ def tick(keys):
 
         if ball.touches(platform):
             if ball.x <= platform.x and game_started:
-                ball.xspeed, ball.yspeed = vectorize(90 +
-                                                     (platform.x - ball.x))
+                ball.xspeed, ball.yspeed = vectorize(90 + (platform.x - ball.x))
             elif ball.x > platform.x and game_started:
-                ball.xspeed, ball.yspeed = vectorize(90 -
-                                                     (ball.x - platform.x))
+                ball.xspeed, ball.yspeed = vectorize(90 - (ball.x - platform.x))
 
         # Draw alien_sprites
         for alien in aliens:
