@@ -19,12 +19,11 @@ game_started = False
 game_over = False
 ball_speed = 10
 ball_angle = 0
+hearts = []
+health = 3
 
-# Initialize camera
 camera = gamebox.Camera(800, 600)
-# Create ball sprite
 ball = gamebox.from_image(400, 600 - 20 - 27, 'moon.png')
-# Create bouncy platform
 platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
 
 
@@ -48,6 +47,7 @@ def endgame(won, score):
     ball = gamebox.from_color(0, 0, 'black', 0, 0)
 
     camera.clear('black')
+
     if won:
         scoreboard = gamebox.from_text(
             400, 300,
@@ -58,6 +58,7 @@ def endgame(won, score):
             400, 300,
             'You lost. Your score was ' + str(score) + '. Press q to quit.',
             'Arial', 30, 'yellow')
+
     camera.draw(scoreboard)
 
 
@@ -65,12 +66,12 @@ def tick(keys):
     global game_started
     global score
     global counter
+    global health
     global game_over
 
     counter += 1
 
     if not game_over:
-
         if counter % (45 * 3) == 0:
             # generate alien
             new_alien = random.choice(alien_sprites)  # picks a random alien
@@ -78,7 +79,6 @@ def tick(keys):
                 gamebox.from_image(random.randint(100, 700), 0, new_alien))
 
         if pygame.K_LEFT in keys:
-            # moves platform left
             platform.x -= 12
 
             if not game_started:
@@ -87,7 +87,6 @@ def tick(keys):
                 game_started = True
 
         if pygame.K_RIGHT in keys:
-            # moves platform right
             platform.x += 12
 
             if not game_started:
@@ -113,6 +112,11 @@ def tick(keys):
         for star in stars:
             camera.draw(star)
 
+        # Draw the health indicator within the game loop
+        for i in range(health):
+            camera.draw(
+                gamebox.from_image(800 - 50 - 75 * i, 600 - 75, 'heart.png'))
+
         # Collision detection
         for block in blocks:
             if ball.touches(block):
@@ -128,15 +132,14 @@ def tick(keys):
             camera.draw(block)
 
         if ball.touches(platform):
-            if ball.x < platform.x:
+            if ball.x <= platform.x and game_started:
                 ball.xspeed, ball.yspeed = vectorize(90 +
                                                      (platform.x - ball.x))
-            elif ball.x > platform.x:
+            elif ball.x > platform.x and game_started:
                 ball.xspeed, ball.yspeed = vectorize(90 -
                                                      (ball.x - platform.x))
 
         # Draw alien_sprites
-
         for alien in aliens:
             alien.y += 2
 
@@ -145,8 +148,12 @@ def tick(keys):
                 aliens.remove(alien)
 
             if platform.touches(alien):
-                endgame(False, score)
-                game_over = True
+                aliens.remove(alien)
+                health -= 1
+
+                if health < 1:
+                    endgame(False, score)
+                    game_over = True
 
             camera.draw(alien)
 
@@ -186,6 +193,7 @@ def main():
         color = random.choice(colors)
         colors.remove(color)
         blocks_per_row = 5
+
         for block in range(blocks_per_row):
             blocks.append(
                 gamebox.from_color(800 / blocks_per_row * block + 160 / 2,
