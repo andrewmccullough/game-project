@@ -15,6 +15,9 @@ colors = ['red', 'orange', 'green', 'blue', 'purple']
 alien_sprites = [
     'alien_blue.png', 'alien_green.png', 'alien_pink.png', 'alien_purple.png'
 ]
+possible_soundtracks = [
+    "ghostbusters.wav", "starwars.wav", "startrek.wav"
+]
 game_started = False
 game_over = False
 ball_speed = 10
@@ -26,6 +29,9 @@ camera = gamebox.Camera(800, 600)
 ball = gamebox.from_image(400, 600 - 20 - 27, 'moon.png')
 platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
 
+soundtrack = random.choice(possible_soundtracks)
+music = gamebox.load_sound(soundtrack)
+play = music.play(-1)
 
 def vectorize(angle):
     global ball_angle
