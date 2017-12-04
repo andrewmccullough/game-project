@@ -29,7 +29,7 @@ alien_sprites = [
 possible_soundtracks = ['ghostbusters.wav', 'starwars.wav', 'startrek.wav']
 
 # Ball variables
-ball_speed = 10
+ball_speed = 7
 ball_angle = 0
 
 # Game status variables
@@ -159,10 +159,10 @@ def tick(keys):
 
         # Update platform location
         if pygame.K_LEFT in keys:
-            platform.x -= 14
+            platform.x -= 11
 
         if pygame.K_RIGHT in keys:
-            platform.x += 14
+            platform.x += 11
 
         # Correct overshooting
         if platform.x > 800 - 160 / 2:
@@ -291,7 +291,7 @@ def main():
             gamebox.from_color(
                 random.randint(0, 800), random.randint(0, 600), 'white', 2, 2))
 
-    gamebox.timer_loop(45, tick)
+    gamebox.timer_loop(60, tick)
 
 
 if __name__ == '__main__':
