@@ -21,7 +21,7 @@ blocks = []
 aliens = []
 hearts = []
 
-# "Possiblity arrays" that are randomly chosen from for generation
+# "Possiblity arrays"
 colors = ['red', 'orange', 'green', 'blue', 'purple']
 alien_sprites = [
     'alien_blue.png', 'alien_green.png', 'alien_pink.png', 'alien_purple.png'
@@ -33,9 +33,9 @@ ball_speed = 7
 ball_angle = 0
 
 # Game status variables
-game_started = False  # Past intro screen
-game_active = False  # Ball moving
-game_over = False  # Game over
+game_started = False
+game_active = False
+game_over = False
 
 camera = gamebox.Camera(800, 600)
 
@@ -48,11 +48,16 @@ play = music.play(-1)
 
 
 def vectorize(angle):
-    '''Calculates ball movement given impact angle'''
+    '''Calculates ball movement given an impact angle'''
     global ball_angle
 
     if angle < 0:
         angle = 360 + angle
+
+    if 0 < angle < 15:
+        angle = 15
+    elif 165 < angle < 180:
+        angle = 165
 
     ball_angle = angle
     xspeed = cos(radians(angle)) * ball_speed
@@ -79,7 +84,7 @@ def tick(keys):
     for star in stars:
         camera.draw(star)
 
-    # Quit game at any time
+    # Quit the game at any time
     if pygame.K_q in keys:
         gamebox.stop_loop()
 
@@ -88,7 +93,7 @@ def tick(keys):
                                   'green')
         camera.draw(title)
         subtitle = gamebox.from_text(
-            400, 260, 'brought to you by Samarth Kishor and Andrew McCullough',
+            400, 270, 'brought to you by Samarth Kishor and Andrew McCullough',
             'Arial', 25, 'green')
         camera.draw(subtitle)
         subsubtitle = gamebox.from_text(400, 300, 'sk4gz // asm4wm', 'Arial',
@@ -256,16 +261,15 @@ def tick(keys):
             gamebox.from_text(50, 600 - 70, scoreboard, 'Arial', 25, 'white'))
 
     elif game_over:
-        # camera.clear('black')
         if won:
             scoreboard = gamebox.from_text(
                 400, 300,
                 'You won in ' + str(time) + ' seconds! Your score was ' +
-                str(score) + '. Press q to quit.', 'Arial', 30, 'yellow')
+                str(score) + '. Press q to quit.', 'Arial', 25, 'yellow')
         else:
             scoreboard = gamebox.from_text(
                 400, 300, 'You lost. Your score was ' + str(score) +
-                '. Press q to quit.', 'Arial', 30, 'yellow')
+                '. Press q to quit.', 'Arial', 25, 'yellow')
 
         camera.draw(scoreboard)
 
