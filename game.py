@@ -15,9 +15,7 @@ colors = ['red', 'orange', 'green', 'blue', 'purple']
 alien_sprites = [
     'alien_blue.png', 'alien_green.png', 'alien_pink.png', 'alien_purple.png'
 ]
-possible_soundtracks = [
-    "ghostbusters.wav", "starwars.wav", "startrek.wav"
-]
+possible_soundtracks = ["ghostbusters.wav", "starwars.wav", "startrek.wav"]
 game_started = False
 game_over = False
 ball_speed = 10
@@ -32,6 +30,7 @@ platform = gamebox.from_color(400, 600, 'yellow', 160, 40)
 soundtrack = random.choice(possible_soundtracks)
 music = gamebox.load_sound(soundtrack)
 play = music.play(-1)
+
 
 def vectorize(angle):
     global ball_angle
@@ -129,9 +128,11 @@ def tick(keys):
 
         if ball.touches(platform):
             if ball.x <= platform.x and game_started:
-                ball.xspeed, ball.yspeed = vectorize(90 + (platform.x - ball.x))
+                ball.xspeed, ball.yspeed = vectorize(90 +
+                                                     (platform.x - ball.x))
             elif ball.x > platform.x and game_started:
-                ball.xspeed, ball.yspeed = vectorize(90 - (ball.x - platform.x))
+                ball.xspeed, ball.yspeed = vectorize(90 -
+                                                     (ball.x - platform.x))
 
         # Draw alien_sprites
         for alien in aliens:
