@@ -46,6 +46,10 @@ soundtrack = random.choice(possible_soundtracks)
 music = gamebox.load_sound(soundtrack)
 play = music.play(-1)
 
+#####################################################
+#### Calculates ball movement given impact angle ####
+#####################################################
+
 
 def vectorize(angle):
     global ball_angle
@@ -75,7 +79,6 @@ def tick(keys):
 
     # Draw the background within the game loop
     camera.clear('black')
-
     for star in stars:
         camera.draw(star)
 
@@ -147,7 +150,6 @@ def tick(keys):
             camera.draw(title)
 
     elif game_started and game_active and not game_over:
-
         # Increment timer
         if counter % 45 == 0:
             time += 1
@@ -248,11 +250,13 @@ def tick(keys):
 
         # Draw timer
         timer = str(time) + ' s'
-        if game_started:
-            camera.draw(
-                gamebox.from_text(50, 600 - 50, timer, 'Arial', 25, 'white'))
+        camera.draw(
+            gamebox.from_text(50, 600 - 40, timer, 'Arial', 25, 'white'))
 
-            camera.draw(platform)
+        # Draw score
+        scoreboard = str(score) + ' pts'
+        camera.draw(
+            gamebox.from_text(50, 600 - 70, scoreboard, 'Arial', 25, 'white'))
 
     elif game_over:
         # camera.clear('black')
