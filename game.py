@@ -107,11 +107,6 @@ def tick(keys):
         for star in stars:
             camera.draw(star)
 
-        # Draw the health indicator within the game loop
-        for i in range(health):
-            camera.draw(
-                gamebox.from_image(800 - 50 - 75 * i, 600 - 75, 'heart.png'))
-
         # Collision detection
         for block in blocks:
             if ball.touches(block):
@@ -176,6 +171,12 @@ def tick(keys):
         gamebox.stop_loop()
 
     camera.draw(ball)
+
+    # Draw the health indicator within the game loop
+    for i in range(health):
+        camera.draw(
+            gamebox.from_image(800 - 50 - 60 * i, 600 - 60, 'heart.png'))
+
     camera.draw(platform)
     camera.display()
 
