@@ -87,7 +87,8 @@ def tick(keys):
 
         if game_started == False:
             # Draw start screen
-            title = gamebox.from_text(400, 200, "SpaceBreaker", "Arial", 60, "yellow")
+            title = gamebox.from_text(400, 200, "SpaceBreaker", "Arial", 60,
+                                      "yellow")
             camera.draw(title)
 
         if counter % 45 == 0 and game_started == True:
