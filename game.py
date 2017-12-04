@@ -22,6 +22,7 @@ ball_speed = 10
 ball_angle = 0
 hearts = []
 health = 3
+time = 0
 
 camera = gamebox.Camera(800, 600)
 ball = gamebox.from_image(400, 600 - 20 - 27, 'moon.png')
@@ -56,7 +57,7 @@ def endgame(won, score):
     if won:
         scoreboard = gamebox.from_text(
             400, 300,
-            'You won! Your score was ' + str(score) + '. Press q to quit.',
+            'You won in ' + str(time) + ' seconds! Your score was ' + str(score) + '. Press q to quit.',
             'Arial', 30, 'yellow')
     else:
         scoreboard = gamebox.from_text(
@@ -73,10 +74,14 @@ def tick(keys):
     global counter
     global health
     global game_over
+    global time
 
     counter += 1
 
     if not game_over:
+        if counter % 45 == 0:
+            time += 1
+
         if counter % (45 * 3) == 0:
             new_alien = random.choice(alien_sprites)
             aliens.append(
@@ -183,6 +188,12 @@ def tick(keys):
     for i in range(health):
         camera.draw(
             gamebox.from_image(800 - 50 - 60 * i, 600 - 60, 'heart.png'))
+
+    # Draw the countup timer within the game stop_loop
+    timer = str(time) + " s"
+    camera.draw(
+        gamebox.from_text(50, 600 - 50, timer, "Arial", 25, "white")
+    )
 
     camera.draw(platform)
     camera.display()
