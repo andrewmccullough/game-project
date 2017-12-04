@@ -46,12 +46,9 @@ soundtrack = random.choice(possible_soundtracks)
 music = gamebox.load_sound(soundtrack)
 play = music.play(-1)
 
-#####################################################
-#### Calculates ball movement given impact angle ####
-#####################################################
-
 
 def vectorize(angle):
+    '''Calculates ball movement given impact angle'''
     global ball_angle
 
     if angle < 0:
