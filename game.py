@@ -133,11 +133,6 @@ def tick(keys):
         camera.draw(platform)
         camera.draw(ball)
 
-        # Draw health
-        for i in range(health):
-            camera.draw(
-                gamebox.from_image(800 - 50 - 60 * i, 600 - 60, 'heart.png'))
-
     elif game_started == True and game_active == True and game_over == False:
 
         # Increment timer
@@ -240,10 +235,12 @@ def tick(keys):
 
         # Draw timer
         timer = str(time) + ' s'
-        if game_started == True:
-            camera.draw(gamebox.from_text(50, 600 - 50, timer, 'Arial', 25, 'white'))
+        camera.draw(gamebox.from_text(50, 600 - 40, timer, 'Arial', 25, 'white'))
 
-            camera.draw(platform)
+        # Draw score
+        scoreboard = str(score) + ' pts'
+        camera.draw(gamebox.from_text(50, 600 - 70, scoreboard, 'Arial', 25, 'white'))
+
 
     elif game_over == True:
 
