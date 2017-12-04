@@ -80,23 +80,35 @@ def tick(keys):
     counter += 1
 
     if not game_over:
-        if counter % 45 == 0:
+
+        # Draw the background within the game loop
+        camera.clear('black')
+
+        for star in stars:
+            camera.draw(star)
+
+        if game_started == False:
+            # Draw start screen
+            title = gamebox.from_text(400, 200, "SpaceBreaker", "Arial", 60, "yellow")
+            camera.draw(title)
+
+        if counter % 45 == 0 and game_started == True:
             time += 1
 
-        if counter % (45 * 3) == 0:
+        if counter % (45 * 3) == 0 and game_started == True:
             new_alien = random.choice(alien_sprites)
             aliens.append(
                 gamebox.from_image(random.randint(100, 700), 0, new_alien))
 
         if pygame.K_LEFT in keys:
-            platform.x -= 12
+            platform.x -= 14
 
             if not game_started:
                 ball.xspeed, ball.yspeed = vectorize(110)
                 game_started = True
 
         if pygame.K_RIGHT in keys:
-            platform.x += 12
+            platform.x += 14
 
             if not game_started:
                 ball.xspeed, ball.yspeed = vectorize(70)
@@ -112,25 +124,20 @@ def tick(keys):
         ball.x = ball.x + ball.xspeed
         ball.y = ball.y - ball.yspeed
 
-        # Draw the background within the game loop
-        camera.clear('black')
-
-        for star in stars:
-            camera.draw(star)
-
         # Collision detection
-        for block in blocks:
-            if ball.touches(block):
-                if ball_angle > 90 and ball_angle < 180:
-                    ball.xspeed, ball.yspeed = vectorize(
-                        180 + (180 - ball_angle))
-                elif ball_angle > 0 and ball_angle < 90:
-                    ball.xspeed, ball.yspeed = vectorize(0 - ball_angle)
+        if game_started == True:
+            for block in blocks:
+                if ball.touches(block):
+                    if ball_angle > 90 and ball_angle < 180:
+                        ball.xspeed, ball.yspeed = vectorize(
+                            180 + (180 - ball_angle))
+                    elif ball_angle > 0 and ball_angle < 90:
+                        ball.xspeed, ball.yspeed = vectorize(0 - ball_angle)
 
-                blocks.remove(block)
-                score += 1
+                    blocks.remove(block)
+                    score += 1
 
-            camera.draw(block)
+                camera.draw(block)
 
         if ball.touches(platform):
             if ball.x <= platform.x and game_started:
@@ -139,22 +146,23 @@ def tick(keys):
                 ball.xspeed, ball.yspeed = vectorize(90 - (ball.x - platform.x))
 
         # Draw alien_sprites
-        for alien in aliens:
-            alien.y += 2
+        if game_started == True:
+            for alien in aliens:
+                alien.y += 2
 
-            if ball.touches(alien):
-                score += 1
-                aliens.remove(alien)
+                if ball.touches(alien):
+                    score += 1
+                    aliens.remove(alien)
 
-            if platform.touches(alien):
-                aliens.remove(alien)
-                health -= 1
+                if platform.touches(alien):
+                    aliens.remove(alien)
+                    health -= 1
 
-                if health < 1:
-                    endgame(False, score)
-                    game_over = True
+                    if health < 1:
+                        endgame(False, score)
+                        game_over = True
 
-            camera.draw(alien)
+                camera.draw(alien)
 
         # Bounce the ball off the sides of the screen
         if ball.y > 600 - 54 / 2:
