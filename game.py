@@ -46,6 +46,10 @@ soundtrack = random.choice(possible_soundtracks)
 music = gamebox.load_sound(soundtrack)
 play = music.play(-1)
 
+#####################################################
+#### Calculates ball movement given impact angle ####
+#####################################################
+
 def vectorize(angle):
     global ball_angle
 
@@ -73,7 +77,6 @@ def tick(keys):
 
     # Draw the background within the game loop
     camera.clear('black')
-
     for star in stars:
         camera.draw(star)
 
