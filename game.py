@@ -37,7 +37,6 @@ game_started = False
 game_active = False
 game_over = False
 
-# Gamebox variables
 camera = gamebox.Camera(800, 600)
 
 ball = gamebox.from_image(400, 600 - 20 - 27, 'moon.png')
