@@ -21,12 +21,12 @@ blocks = []
 aliens = []
 hearts = []
 
-# "Possiblity lists"
+# "Possiblity arrays"
 colors = ['red', 'orange', 'green', 'blue', 'purple']
 alien_sprites = [
     'alien_blue.png', 'alien_green.png', 'alien_pink.png', 'alien_purple.png'
 ]
-possible_soundtracks = ['starwars.wav', 'startrek.wav']
+possible_soundtracks = ['ghostbusters.wav', 'starwars.wav', 'startrek.wav']
 
 # Ball variables
 ball_speed = 7
@@ -100,10 +100,6 @@ def tick(keys):
         subsubtitle = gamebox.from_text(400, 300, 'sk4gz // asm4wm', 'Arial',
                                         20, 'green')
         camera.draw(subsubtitle)
-        subsubsubtitle = gamebox.from_text(
-            400, 330, 'Music by the 8 Bit Universe YouTube channel', 'Arial',
-            15, 'green')
-        camera.draw(subsubsubtitle)
 
         controls = [
             'SPACE to start', 'LEFT and RIGHT arrows to move', 'Q to quit'
